@@ -1,10 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-#
-#	Ubuntu Xenial 64-bit Linux mit Docker
-#
-
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/xenial64"
