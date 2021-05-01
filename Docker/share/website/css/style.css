@@ -1,0 +1,99 @@
+header {
+    font-family: arial, sans-serif;
+    background: transparent;
+    transition: 0.5s ease-in-out all;
+}
+
+body {
+    background-image: url('../pictures/background.jpg');
+    font-family: arial, sans-serif;
+    background-color: white;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    font-size: 20px;
+    font-family: arial, sans-serif;
+    border-collapse:initial;
+
+}
+
+
+th{
+    font-size: 20px;
+    text-align: left;
+    border-right: 2px solid #dddddd;
+    border-left: 2px solid #dddddd;
+    padding: 9px;
+    background: transparent;
+    color: white;    
+    transition: 0.5s ease-in-out all;
+}
+th:hover,td:hover {
+    background: rgba(0,0,0, .5);
+    color:white;
+}
+
+td {
+    font-size: 15px;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 6px;
+    padding-right: 100px;
+    background: transparent;
+    transition: 0.5s ease-in-out all;
+  }
+
+h1 {
+   color: white;
+   font-size: 50px;
+   text-align: center;
+}
+
+
+p {
+    color: white;
+    font-size: 20px;
+ }
+
+
+#stockin {
+    height: 24px;
+    width: 11em;
+    font-size: 0.3em;
+    transition: 0.5s ease-in-out all;
+    border: solid 0.5px black;
+    text-transform:uppercase;
+}
+#stockin:hover {
+    background-color: black;
+    color: white;
+}
+
+#stocksub {
+    height: 30px;
+    width: 10em;
+    font-size: 20px;
+    background: white;
+    transition: 0.5s ease-in-out all;
+    border: solid 0.5px black;
+    
+}
+
+#stocksub:hover {
+    background-color: transparent;
+    color: white;
+}
+
+hr {
+    border:none;
+    height: 20px;
+       width: 50%;
+      height: 50px;
+      margin-top: 0;
+      border-bottom: 1px solid #1f1209;
+      box-shadow: 0 20px 20px -20px #333;
+    margin: -50px auto 10px; 
+  }

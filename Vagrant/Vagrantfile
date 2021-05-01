@@ -1,0 +1,57 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+#
+#	Ubuntu Xenial 64-bit Linux mit Docker
+#
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu/xenial64"
+  config.vm.synced_folder ".", "/var/tmp/vagrant"
+  # Create forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. 
+  # NOTE: This will enable public access to the opened ports
+  config.vm.network "forwarded_port", guest:8080, host:8080, auto_correct: true
+  config.vm.network "forwarded_port", guest:80, host:80, auto_correct: true
+  config.vm.network "forwarded_port", guest:8081, host:8081, auto_correct: true
+  config.vm.network "forwarded_port", guest:8082, host:8082, auto_correct: true
+  config.vm.network "forwarded_port", guest:3306, host:3306, auto_correct: true  
+  for i in 32760..32780
+    config.vm.network :forwarded_port, guest: i, host: i
+  end
+  
+  config.vm.provision "file", source: "../docker/", destination: "/home/vagrant/"
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  config.vm.hostname = "docker"
+  config.vm.network "private_network", ip:"192.168.60.101"
+      
+  # Share an additional folder to the guest VM.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vm.provider "virtualbox" do |vb|
+     vb.memory = "4096"
+  end
+
+  # Docker Provisioner
+  config.vm.provision "docker" do |d|
+   d.pull_images "ubuntu:14.04"
+  end   
+  config.vm.provision "file", source: "../samba/smb.conf", destination: "/var/tmp/vagrant/samba/smb.conf"
+  config.vm.provision "file", source: "../samba/pw.sh", destination: "/var/tmp/vagrant/samba/pw.sh"
+  config.vm.provision "shell", inline: <<-SHELL
+  sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+  sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+  #samba
+  sudo chmod 777 /etc/samba/pw.sh
+  sudo apt install -y samba  
+  sudo mv /var/tmp/vagrant/samba/smb.conf /etc/samba/smb.conf
+  sudo mv /var/tmp/vagrant/samba/pw.sh /etc/samba/pw.sh
+  sudo /etc/samba/pw.sh
+  sudo service smbd restart
+  cd docker && docker-compose up -d
+  SHELL
+end

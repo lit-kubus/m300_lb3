@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  get-price:
+    build: ./python
+    volumes:
+      - ./share/website/python:/usr/src/app
+  
+  website:
+    build: ./website
+    volumes:
+      - ./share/website:/var/www/html
+    ports:
+      - 80:80
+    depends_on:
+      - get-price
